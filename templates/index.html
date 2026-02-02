@@ -55,7 +55,7 @@
       const a = document.getElementById('input-empl').value;
       const b = document.getElementById('input-savings').value;
       const c = document.getElementById('input-bonus').value;
-      feedback1.textContent = feedback2.textContent = feedback3.textContent  = "";
+      feedback1.textContent = feedback2.textContent = feedback3.textContent = "";
 
       axios.post("/api/calcTax", {a, b, c}).then( res => {
         feedback1.className = feedback2.className = "result";
@@ -93,7 +93,7 @@
       //}
       else if (err.response.error4) {
         feedback1.className = "error";
-        feedback1.textContent = "Both incomes must be numerical";
+        feedback1.textContent = "All incomes must be numerical";
       }
       else if (err.response.error) {
         feedback.className = "error";
