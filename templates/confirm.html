@@ -55,10 +55,10 @@
     function save() {
       const a = document.getElementById('feedbackempl').textContent;
       const b = document.getElementById('feedbacksavings').textContent;
-      const c = document.getElementById('feedbackbonus').textContent
+      const c = document.getElementById('feedbackbonus').textContent;
       feedback1.textContent = "";
       
-      axios.post("/api/saveTax", {a, b}).then( res => {
+      axios.post("/api/saveTax", {a, b, c}).then( res => {
         feedback1.className = "result";
         feedback1.textContent = `${res.data.message}`;
 
