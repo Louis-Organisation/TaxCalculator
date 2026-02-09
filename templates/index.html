@@ -38,7 +38,6 @@
     </label>
 
     <button type="button" onclick="calculate()">Calculate</button>
-    <button type="button" onclick="save()">Save</button>
 
   </form>
 
@@ -59,9 +58,8 @@
 
       axios.post("/api/calcTax", {a, b, c}).then( res => {
         feedback1.className = feedback2.className = "result";
-        feedback1.textContent = `Tax on income: ${res.data.taxIncome}`;
-        feedback2.textContent = `Tax on savings: ${res.data.taxSavings}`;
-        feedback3.textContent = `Tax on bonuses: ${res.data.taxBonus}`;
+
+        window.location.href = "/confirm"
       }).
       catch (err => displayError(err));
     }
@@ -69,9 +67,10 @@
     function save() {
       const a = document.getElementById('input-empl').value;
       const b = document.getElementById('input-savings').value;
+      const c = document.getElementById('input-bonus').value
       feedback1.textContent = feedback2.textContent = "";
       
-      axios.post("/api/saveTax", {a, b}).then( res => {
+      axios.post("/api/saveTax", {a, b, c}).then( res => {
         feedback1.className = feedback2.className = "result";
         feedback1.textContent = "Saved successfully";
       }).
