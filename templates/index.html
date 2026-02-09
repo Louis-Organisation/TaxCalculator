@@ -57,7 +57,7 @@
       feedback1.textContent = feedback2.textContent = feedback3.textContent = "";
 
       axios.post("/api/calcTax", {a, b, c}).then( res => {
-        feedback1.className = feedback2.className = "result";
+        feedback1.className = feedback2.className = feedback3.className = "result";
 
         window.location.href = "/confirm"
       }).
