@@ -10,16 +10,36 @@ def home():
 
 @app.route("/api/calcTax", methods=["POST"])
 def calcTax():
-  """
-  Expects JSON like: {"a": <number>, "b": <number>, "c": <number>}
-  Returns: {"tax": <number>}
-  """
-  data = request.get_json(silent=True)
+  if request.method == 'POST':
+    data = request.get_json(silent=True)
 
-  if not data or "a" not in data or "b" not in data or "c" not in data:
-    return jsonify({"error1": "Income can not be blank"}), 400
+    if not data or "a" not in data or "b" not in data or "c" not in data:
+      return jsonify({"error1": "Income can not be blank"}), 400
+    
+
+    try:
+      a = float(data["a"])
+      b = float(data["b"])
+      c = float(data["c"])
+
+      session['empl'] = a
+      session['savings'] = b
+      session['bonus'] = c
+      
+    except (ValueError, TypeError):
+      return jsonify({"error4": "All incomes must be numerical"}), 400
+    
+    return render_template('index.html')
+
+@app.route('/confirm')
+def confirm_page():
+  print('confirm')
+  return render_template("confirm.html")
   
-
+@app.route("/api/saveTax", methods=["POST"])
+def commit_sum():
+  data = request.get_json(silent=True)
+  
   try:
     a = float(data["a"])
     b = float(data["b"])
@@ -38,25 +58,7 @@ def calcTax():
       bonus_tax = 45/100*c
       
     return jsonify({"taxIncome": 20/100*a, "taxSavings": savings_tax, "taxBonus": bonus_tax}), 200
-    
-  except (ValueError, TypeError):
-    return jsonify({"error4": "All incomes must be numerical"}), 400
-
   
-@app.route("/api/saveTax", methods=["POST"])
-def commit_sum():
-  data = request.get_json(silent=True)
-  
-  try:
-    a = float(data["a"])
-    b = float(data["b"])
-    
-    # this is where we save the inputs in a db
-    #import db_manager
-    #db_manager.addIncomes(1, a, b)
-
-    return jsonify({"message": "Saved"}), 200
-    
   except (ValueError, TypeError):
     return jsonify({"error": "Error saving"}), 400
 
