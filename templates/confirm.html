@@ -29,6 +29,8 @@
   Employment: <div id="feedbackempl">{{ session['empl'] }}</div>
   <br>
   Interest: <div id="feedbacksavings">{{ session['savings'] }}</div>
+  <br>
+  Interest: <div id="feedbackbonus">{{ session['bonus'] }}</div>
 
 
  <br>
@@ -42,15 +44,18 @@
 
 <div id="tax-emp"></div>
 <div id="tax-saving"></div>
+<div id="tax-bonus"></div>
 
 <script>
     let feedback1 = document.getElementById("feedbacksaved");
     let feedback2 = document.getElementById("tax-emp");
     let feedback3 = document.getElementById("tax-saving");
+    let feedback4 = document.getElementById("tax-bonus");
 
     function save() {
       const a = document.getElementById('feedbackempl').textContent;
       const b = document.getElementById('feedbacksavings').textContent;
+      const c = document.getElementById('feedbackbonus').textContent
       feedback1.textContent = "";
       
       axios.post("/api/saveTax", {a, b}).then( res => {
@@ -62,6 +67,9 @@
 
         feedback3.className = "result";
         feedback3.textContent = `Tax on savings: ${res.data.taxSavings}`;
+
+        feedback4.className = "result"
+        feedback4.textContent = `Tax on bonuses: ${res.data.taxBonus}`;
       }).
       catch (err => displayError(err));
     }
