@@ -1,7 +1,8 @@
 
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, session
 
 app = Flask(__name__)
+app.secret_key = 'SPIDERS'
 
 @app.route("/", methods=["GET"])
 def home():
